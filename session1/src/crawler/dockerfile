@@ -1,0 +1,15 @@
+FROM python:3.10-slim
+
+# Set the working directory to /app
+WORKDIR /app
+
+RUN apt-get update && \
+    apt-get upgrade -y
+
+COPY pyproject.toml poetry.lock /app/
+
+RUN pip install poetry && poetry install
+
+COPY src/crawler /app
+
+CMD ["poetry", "run", "python", "main.py"]
